@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:5080
+
+### Health check
+GET {{baseUrl}}/
+
+### A good reading
+POST {{baseUrl}}/api/meter-readings
+Content-Type: application/json
+
+{
+  "meterId": "MTR-1001",
+  "volume": 125.4,
+  "unit": "MCF",
+  "readAt": "2026-10-27T14:30:00Z"
+}
+
+### A bad reading that is accepted today (this is the bug the work item fixes)
+POST {{baseUrl}}/api/meter-readings
+Content-Type: application/json
+
+{
+  "meterId": "",
+  "volume": -50,
+  "unit": "gallons",
+  "readAt": "2099-01-01T00:00:00Z"
+}
+
+### Readings for one meter
+GET {{baseUrl}}/api/meter-readings?meterId=MTR-1001
