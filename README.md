@@ -1,5 +1,7 @@
 # NOVA Copilot Learning Demo
 
+> You're on the `demo-solution` branch: validation is done and every Copilot file is applied. Switch to `main` for the starting point.
+
 A small ASP.NET Core (.NET 8) API for the NOVA Advanced talk on context engineering
 for GitHub Copilot agent mode. It records gas meter readings, and it has one deliberate
 gap: **no input validation**. The live demo uses Copilot to close that gap from an

@@ -1,10 +1,13 @@
+using FluentValidation;
 using MeterReadings.Api.Models;
 using MeterReadings.Api.Services;
+using MeterReadings.Api.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IMeterReadingRepository, InMemoryMeterReadingRepository>();
+builder.Services.AddSingleton<IValidator<MeterReadingRequest>, MeterReadingRequestValidator>();
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
@@ -16,11 +19,18 @@ app.MapGet("/", () => Results.Ok(new { service = "MeterReadings.Api", status = "
 
 var readings = app.MapGroup("/api/meter-readings");
 
-// Records a new meter reading.
-// NOTE FOR THE DEMO: there is no input validation yet. Negative volumes, blank meter IDs,
-// unknown units and future dates are all accepted. Work item: see WORK-ITEM.md.
-readings.MapPost("/", (MeterReadingRequest request, IMeterReadingRepository repository) =>
+// Records a new meter reading after validating it.
+readings.MapPost("/", async (
+    MeterReadingRequest request,
+    IValidator<MeterReadingRequest> validator,
+    IMeterReadingRepository repository) =>
 {
+    var validation = await validator.ValidateAsync(request);
+    if (!validation.IsValid)
+    {
+        return Results.ValidationProblem(validation.ToDictionary());
+    }
+
     var reading = repository.Add(request);
     return Results.Created($"/api/meter-readings/{reading.Id}", reading);
 });
