@@ -5,6 +5,10 @@ for GitHub Copilot agent mode. It records gas meter readings, and it has one del
 gap: **no input validation**. The live demo uses Copilot to close that gap from an
 Azure DevOps work item, adding one layer of context at a time.
 
+## Also in this repo: Teaching Copilot to Learn
+
+The `phase-1-baseline` branch holds a work order tracker API for the "Teaching Copilot to Learn" demo, and the `demo-runbook` branch holds its presenter runbook and kit. See `DEMO_RUNBOOK.md` on that branch.
+
 ## What's in here
 
 | Path | What it is |
