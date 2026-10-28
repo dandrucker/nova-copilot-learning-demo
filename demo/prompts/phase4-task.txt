@@ -1,0 +1,1 @@
+Add a ClosedAt timestamp to work orders that is set when a work order is closed, and include it in the API responses. Finish by running dotnet build and fixing any errors.

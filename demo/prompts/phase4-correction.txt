@@ -1,0 +1,1 @@
+Correction: in this codebase we use DateTimeOffset, not DateTime, for every timestamp, including the existing OpenedAt. Please fix that.

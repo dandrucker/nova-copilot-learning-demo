@@ -1,0 +1,1 @@
+- When the user corrects a convention or pattern, update .github/copilot-instructions.md with the lesson before finishing the task.

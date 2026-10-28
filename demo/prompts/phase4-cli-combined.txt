@@ -1,0 +1,1 @@
+Add a ClosedAt timestamp to work orders that is set when a work order is closed, and include it in the API responses. Correction to how this codebase handles time: we use DateTimeOffset, not DateTime, for every timestamp, including the existing OpenedAt, so fix that too. Finish by running dotnet build and fixing any errors.
