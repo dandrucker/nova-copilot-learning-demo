@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:5090
+
+### All work orders
+GET {{baseUrl}}/workorders
+
+### One work order
+GET {{baseUrl}}/workorders/1
+
+### Create a work order
+POST {{baseUrl}}/workorders
+Content-Type: application/json
+
+{
+  "title": "Replace pig launcher gasket",
+  "pipelineSegment": "Segment 5",
+  "priority": "High"
+}
+
+### Invalid request (plain-text 400 today)
+POST {{baseUrl}}/workorders
+Content-Type: application/json
+
+{
+  "title": "",
+  "pipelineSegment": "Segment 5",
+  "priority": "Low"
+}
+
+### Close a work order
+POST {{baseUrl}}/workorders/4/close
