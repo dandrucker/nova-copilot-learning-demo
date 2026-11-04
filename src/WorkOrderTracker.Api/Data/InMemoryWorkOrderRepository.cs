@@ -13,11 +13,11 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
         var now = DateTime.UtcNow;
         _workOrders =
         [
-            new(1, "Replace corroded valve at compressor station", "Segment 12", WorkOrderPriority.Critical, WorkOrderStatus.Open, now.AddDays(-10)),
-            new(2, "Inspect cathodic protection rectifier", "Segment 4", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-9)),
-            new(3, "Clear right-of-way vegetation", "Segment 7", WorkOrderPriority.Low, WorkOrderStatus.Open, now.AddDays(-20)),
-            new(4, "Recalibrate flow meter", "Segment 2", WorkOrderPriority.Medium, WorkOrderStatus.Open, now.AddDays(-3)),
-            new(5, "Repair leak detection sensor", "Segment 9", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-2))
+            new(1, "Replace corroded valve at compressor station", "Segment 12", WorkOrderPriority.Critical, WorkOrderStatus.Open, now.AddDays(-10), "Alex Morgan"),
+            new(2, "Inspect cathodic protection rectifier", "Segment 4", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-9), "Jordan Lee"),
+            new(3, "Clear right-of-way vegetation", "Segment 7", WorkOrderPriority.Low, WorkOrderStatus.Open, now.AddDays(-20), "Casey Taylor"),
+            new(4, "Recalibrate flow meter", "Segment 2", WorkOrderPriority.Medium, WorkOrderStatus.Open, now.AddDays(-3), "Riley Chen"),
+            new(5, "Repair leak detection sensor", "Segment 9", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-2), "Sam Patel")
         ];
         _nextId = _workOrders.Count + 1;
     }
@@ -28,6 +28,25 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
         try
         {
             return _workOrders.ToList();
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
+    public async Task<IReadOnlyList<WorkOrder>> GetOverdueAsync(CancellationToken cancellationToken)
+    {
+        await _lock.WaitAsync(cancellationToken);
+        try
+        {
+            var overdueBefore = DateTime.UtcNow.AddDays(-7);
+            return _workOrders
+                .Where(workOrder =>
+                    workOrder.Status == WorkOrderStatus.Open
+                    && (workOrder.Priority is WorkOrderPriority.High or WorkOrderPriority.Critical)
+                    && workOrder.OpenedAt < overdueBefore)
+                .ToList();
         }
         finally
         {
@@ -53,7 +72,14 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
         await _lock.WaitAsync(cancellationToken);
         try
         {
-            var workOrder = new WorkOrder(_nextId++, request.Title, request.PipelineSegment, request.Priority, WorkOrderStatus.Open, DateTime.UtcNow);
+            var workOrder = new WorkOrder(
+                _nextId++,
+                request.Title,
+                request.PipelineSegment,
+                request.Priority,
+                WorkOrderStatus.Open,
+                DateTime.UtcNow,
+                request.Assignee);
             _workOrders.Add(workOrder);
             return workOrder;
         }

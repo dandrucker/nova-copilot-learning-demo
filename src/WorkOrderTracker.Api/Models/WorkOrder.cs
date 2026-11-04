@@ -21,9 +21,11 @@ public sealed record WorkOrder(
     string PipelineSegment,
     WorkOrderPriority Priority,
     WorkOrderStatus Status,
-    DateTime OpenedAt);
+    DateTime OpenedAt,
+    string? Assignee);
 
 public sealed record CreateWorkOrderRequest(
     string Title,
     string PipelineSegment,
-    WorkOrderPriority Priority);
+    WorkOrderPriority Priority,
+    string? Assignee = null);

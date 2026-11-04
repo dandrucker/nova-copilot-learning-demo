@@ -3,6 +3,9 @@
 ### All work orders
 GET {{baseUrl}}/workorders
 
+### Overdue high- and critical-priority work orders
+GET {{baseUrl}}/workorders/overdue
+
 ### One work order
 GET {{baseUrl}}/workorders/1
 
@@ -13,7 +16,8 @@ Content-Type: application/json
 {
   "title": "Replace pig launcher gasket",
   "pipelineSegment": "Segment 5",
-  "priority": "High"
+  "priority": "High",
+  "assignee": "Alex Morgan"
 }
 
 ### Invalid request (plain-text 400 today)

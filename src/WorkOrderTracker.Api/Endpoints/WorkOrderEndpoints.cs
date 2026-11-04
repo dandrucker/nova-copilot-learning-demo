@@ -10,11 +10,22 @@ public static class WorkOrderEndpoints
         var group = endpoints.MapGroup("/workorders");
 
         group.MapGet("/", GetAllAsync);
+        group.MapGet("/overdue", GetOverdueAsync);
         group.MapGet("/{id:int}", GetByIdAsync);
         group.MapPost("/", CreateAsync);
         group.MapPost("/{id:int}/close", CloseAsync);
 
         return endpoints;
+    }
+
+    private static async Task<IResult> GetOverdueAsync(
+        IWorkOrderRepository repository,
+        ILogger<Program> logger,
+        CancellationToken cancellationToken)
+    {
+        var workOrders = await repository.GetOverdueAsync(cancellationToken);
+        logger.LogInformation("Returning {WorkOrderCount} overdue work orders", workOrders.Count);
+        return Results.Ok(workOrders);
     }
 
     private static async Task<IResult> GetAllAsync(
