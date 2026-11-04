@@ -4,7 +4,7 @@ The whole demo in one place: get it onto the presentation machine, rehearse it, 
 including what to say. It takes about 22 minutes on stage.
 
 You need the .NET 10 SDK, VS Code, and the **GitHub Copilot Chat** and **C# Dev Kit** extensions,
-signed in to Copilot. Everything below runs in PowerShell.
+signed in to Copilot. Everything below runs in PowerShell. You don't need Copilot CLI.
 
 ---
 
@@ -73,8 +73,14 @@ Phase 3 about 1 minute, Phase 4 about 30 seconds.
 1. Run the reset (Part 1, step 3).
 2. In VS Code: open `src/WorkOrderTracker.Api/Program.cs`. Close every chat tab. Open a terminal
    panel at the bottom.
-3. Have this file open where you can read it but the audience can't.
+3. Have this file open where you can read it but the audience can't. The easiest way is a second
+   VS Code window (**File → New Window**, then **Open Folder** `C:\nova\nova-demo-kit`) on your
+   laptop screen, with `START_HERE.md` open in preview (Ctrl+Shift+V). Keep the kit out of the app
+   window, so Copilot can't read the house rules from it during Phase 3.
 4. Optional: a slide with the five house rules from Phase 2.
+
+Every "new session" in the demo is just **New Chat** in the app window. A new chat starts with no
+history, which is all the demo needs. You don't need a second app window or Copilot CLI for it.
 
 ---
 
@@ -261,7 +267,28 @@ code review: a reviewer that remembers when you tell it a finding was wrong." (I
 | It put the rules file somewhere other than `.github/` | Reset (Part 1, step 3) and start Phase 2 again. |
 | Phase 3 ignores the rules | Check the **Use Instruction Files** setting (Part 1, step 4), then run Phase 3 again in a new chat. |
 | Running out of time | Skip the Phase 3 code walkthrough. Phase 4 is the payoff. |
-| Everything is broken | If Copilot CLI is installed, run `C:\nova\nova-demo-kit\demo\run-demo.ps1 -RepoPath C:\nova\nova-copilot-learning-demo` and narrate over it. It runs every phase itself and pauses for Enter. |
+| A phase goes badly wrong, or the network or Copilot is down | Switch to the recorded run, below. |
+
+### The recorded run (backup)
+
+The `demo-backup` branch is a real run of every phase, recorded on 2026-11-04 with one commit per
+step. If a phase fails live, say "Here's one I made earlier", switch to it, and show the same thing
+from the recording:
+
+```powershell
+git checkout -f -B demo-live origin/demo-backup
+```
+
+This throws away the live changes. Then show whichever phase you're on:
+
+| Phase | Show it with |
+| --- | --- |
+| 2. Teach | `git --no-pager show origin/demo-backup~4 -- .github/copilot-instructions.md` |
+| 3. Prove it | `git --no-pager show origin/demo-backup~3 --stat`, then open `src/WorkOrderTracker.Api/Endpoints/WorkOrderEndpoints.cs` |
+| 4. Task (picks DateTime) | `git --no-pager show origin/demo-backup~1 -- src/WorkOrderTracker.Api/Models` |
+| 4. Correction (writes the lesson) | `git --no-pager show origin/demo-backup -- .github/copilot-instructions.md` |
+
+`check-rules.ps1` passes on it, and it builds. Reset afterwards (Part 1, step 3).
 
 To run the demo again, just reset (Part 1, step 3).
 
@@ -280,5 +307,6 @@ To run the demo again, just reset (Part 1, step 3).
 
 ## Other files
 
-- `DEMO_RUNBOOK.md`: other ways to run it (the NOVA Presenter agent, Copilot CLI) and the CLI flags.
+- `DEMO_RUNBOOK.md`: other ways to run it (the NOVA Presenter agent, Copilot CLI) and the CLI
+  flags. None of them are needed.
 - `demo/appendix/`: the code review appendix.
