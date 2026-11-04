@@ -18,7 +18,7 @@ Lay the folders out side by side, for example `C:\nova\nova-copilot-learning-dem
 
 ## One-time setup
 
-1. Install the .NET 8 SDK and VS Code with GitHub Copilot Chat and C# Dev Kit.
+1. Install the .NET 10 SDK and VS Code with GitHub Copilot Chat and C# Dev Kit.
 2. Check out the baseline and build it:
 
    ```powershell
@@ -181,7 +181,7 @@ the Copilot Requests permission in `COPILOT_GITHUB_TOKEN`.
 - **You need a clean slate:** run `reset.ps1` again.
 
 ## Notes
-
+- The baseline builds and runs on the .NET 10 SDK, but the Copilot phases have not been run end to end.
 - This kit was written without a .NET SDK or Copilot available, so nothing has been run end to end.
   Do one full dry run at work before presenting.
 - `check-rules` is a quick pattern check, not a compiler. Read the diff for the real story.
