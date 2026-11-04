@@ -1,5 +1,10 @@
 # NOVA Copilot Learning Demo
 
+> **Presenting "Copilot Forgets. Your Repo Doesn't." (Teaching Copilot to Learn)?** Follow
+> [START_HERE.md](https://github.com/dandrucker/nova-copilot-learning-demo/blob/demo-runbook/START_HERE.md)
+> on the `demo-runbook` branch. It covers setup, the steps and what to say. The rest of this page is
+> a different demo.
+
 > You're on the `demo-solution` branch: validation is done and every Copilot file is applied. Switch to `main` for the starting point.
 
 A small ASP.NET Core (.NET 8) API for the NOVA Advanced talk on context engineering
@@ -9,7 +14,7 @@ Azure DevOps work item, adding one layer of context at a time.
 
 ## Also in this repo: Teaching Copilot to Learn
 
-The `phase-1-baseline` branch holds a work order tracker API for the "Teaching Copilot to Learn" demo, and the `demo-runbook` branch holds its presenter runbook and kit. See `DEMO_RUNBOOK.md` on that branch.
+The `phase-1-baseline` branch holds a work order tracker API for the "Teaching Copilot to Learn" demo, and the `demo-runbook` branch holds its presenter runbook and kit. Start with `START_HERE.md` on that branch.
 
 ## What's in here
 
