@@ -4,78 +4,82 @@ namespace WorkOrderTracker.Api.Data;
 
 public class InMemoryWorkOrderRepository : IWorkOrderRepository
 {
-    private readonly List<WorkOrder> _workOrders = new();
-    private readonly object _lock = new();
-    private int _nextId = 1;
+    private readonly List<WorkOrder> _workOrders;
+    private readonly SemaphoreSlim _lock = new(1, 1);
+    private int _nextId;
 
     public InMemoryWorkOrderRepository()
     {
-        Seed("Replace corroded valve at compressor station", "Segment 12", WorkOrderPriority.Critical, 10);
-        Seed("Inspect cathodic protection rectifier", "Segment 4", WorkOrderPriority.High, 9);
-        Seed("Clear right-of-way vegetation", "Segment 7", WorkOrderPriority.Low, 20);
-        Seed("Recalibrate flow meter", "Segment 2", WorkOrderPriority.Medium, 3);
-        Seed("Repair leak detection sensor", "Segment 9", WorkOrderPriority.High, 2);
+        var now = DateTime.UtcNow;
+        _workOrders =
+        [
+            new(1, "Replace corroded valve at compressor station", "Segment 12", WorkOrderPriority.Critical, WorkOrderStatus.Open, now.AddDays(-10)),
+            new(2, "Inspect cathodic protection rectifier", "Segment 4", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-9)),
+            new(3, "Clear right-of-way vegetation", "Segment 7", WorkOrderPriority.Low, WorkOrderStatus.Open, now.AddDays(-20)),
+            new(4, "Recalibrate flow meter", "Segment 2", WorkOrderPriority.Medium, WorkOrderStatus.Open, now.AddDays(-3)),
+            new(5, "Repair leak detection sensor", "Segment 9", WorkOrderPriority.High, WorkOrderStatus.Open, now.AddDays(-2))
+        ];
+        _nextId = _workOrders.Count + 1;
     }
 
-    public IEnumerable<WorkOrder> GetAll()
+    public async Task<IReadOnlyList<WorkOrder>> GetAllAsync(CancellationToken cancellationToken)
     {
-        lock (_lock)
+        await _lock.WaitAsync(cancellationToken);
+        try
         {
             return _workOrders.ToList();
         }
+        finally
+        {
+            _lock.Release();
+        }
     }
 
-    public WorkOrder? GetById(int id)
+    public async Task<WorkOrder?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        lock (_lock)
+        await _lock.WaitAsync(cancellationToken);
+        try
         {
             return _workOrders.FirstOrDefault(w => w.Id == id);
         }
-    }
-
-    public WorkOrder Add(CreateWorkOrderRequest request)
-    {
-        lock (_lock)
+        finally
         {
-            var workOrder = new WorkOrder
-            {
-                Id = _nextId++,
-                Title = request.Title,
-                PipelineSegment = request.PipelineSegment,
-                Priority = request.Priority,
-                Status = WorkOrderStatus.Open,
-                OpenedAt = DateTime.UtcNow
-            };
-            _workOrders.Add(workOrder);
-            return workOrder;
+            _lock.Release();
         }
     }
 
-    public bool Close(int id)
+    public async Task<WorkOrder> AddAsync(CreateWorkOrderRequest request, CancellationToken cancellationToken)
     {
-        lock (_lock)
+        await _lock.WaitAsync(cancellationToken);
+        try
         {
-            var workOrder = _workOrders.FirstOrDefault(w => w.Id == id);
-            if (workOrder == null)
+            var workOrder = new WorkOrder(_nextId++, request.Title, request.PipelineSegment, request.Priority, WorkOrderStatus.Open, DateTime.UtcNow);
+            _workOrders.Add(workOrder);
+            return workOrder;
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
+    public async Task<bool> CloseAsync(int id, CancellationToken cancellationToken)
+    {
+        await _lock.WaitAsync(cancellationToken);
+        try
+        {
+            var index = _workOrders.FindIndex(workOrder => workOrder.Id == id);
+            if (index < 0)
             {
                 return false;
             }
 
-            workOrder.Status = WorkOrderStatus.Closed;
+            _workOrders[index] = _workOrders[index] with { Status = WorkOrderStatus.Closed };
             return true;
         }
-    }
-
-    private void Seed(string title, string segment, WorkOrderPriority priority, int daysOpen)
-    {
-        _workOrders.Add(new WorkOrder
+        finally
         {
-            Id = _nextId++,
-            Title = title,
-            PipelineSegment = segment,
-            Priority = priority,
-            Status = WorkOrderStatus.Open,
-            OpenedAt = DateTime.UtcNow.AddDays(-daysOpen)
-        });
+            _lock.Release();
+        }
     }
 }

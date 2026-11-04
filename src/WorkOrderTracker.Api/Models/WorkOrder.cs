@@ -15,19 +15,15 @@ public enum WorkOrderStatus
     Closed
 }
 
-public class WorkOrder
-{
-    public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string PipelineSegment { get; set; } = string.Empty;
-    public WorkOrderPriority Priority { get; set; }
-    public WorkOrderStatus Status { get; set; }
-    public DateTime OpenedAt { get; set; }
-}
+public sealed record WorkOrder(
+    int Id,
+    string Title,
+    string PipelineSegment,
+    WorkOrderPriority Priority,
+    WorkOrderStatus Status,
+    DateTime OpenedAt);
 
-public class CreateWorkOrderRequest
-{
-    public string Title { get; set; } = string.Empty;
-    public string PipelineSegment { get; set; } = string.Empty;
-    public WorkOrderPriority Priority { get; set; }
-}
+public sealed record CreateWorkOrderRequest(
+    string Title,
+    string PipelineSegment,
+    WorkOrderPriority Priority);
