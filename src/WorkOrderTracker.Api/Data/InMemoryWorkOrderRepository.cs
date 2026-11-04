@@ -10,7 +10,7 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
 
     public InMemoryWorkOrderRepository()
     {
-        var now = DateTime.UtcNow;
+        var now = DateTimeOffset.UtcNow;
         _workOrders =
         [
             new(1, "Replace corroded valve at compressor station", "Segment 12", WorkOrderPriority.Critical, WorkOrderStatus.Open, now.AddDays(-10), "Alex Morgan"),
@@ -40,7 +40,7 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
         await _lock.WaitAsync(cancellationToken);
         try
         {
-            var overdueBefore = DateTime.UtcNow.AddDays(-7);
+            var overdueBefore = DateTimeOffset.UtcNow.AddDays(-7);
             return _workOrders
                 .Where(workOrder =>
                     workOrder.Status == WorkOrderStatus.Open
@@ -78,7 +78,7 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
                 request.PipelineSegment,
                 request.Priority,
                 WorkOrderStatus.Open,
-                DateTime.UtcNow,
+                DateTimeOffset.UtcNow,
                 request.Assignee);
             _workOrders.Add(workOrder);
             return workOrder;
@@ -103,7 +103,7 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
             var workOrder = _workOrders[index] with
             {
                 Status = WorkOrderStatus.Closed,
-                ClosedAt = _workOrders[index].ClosedAt ?? DateTime.UtcNow
+                ClosedAt = _workOrders[index].ClosedAt ?? DateTimeOffset.UtcNow
             };
             _workOrders[index] = workOrder;
             return workOrder;
