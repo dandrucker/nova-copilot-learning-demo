@@ -24,26 +24,32 @@ first time it learns something.
 
 ## 3. Make the edits
 
-Keep the original skill's steps, wording and output format. Add three things, using the text below
-and replacing `<LESSONS_FILE>` with the path from step 2.
+Keep the original skill's steps, wording and output format. Make the four edits below, replacing
+`<LESSONS_FILE>` with the path from step 2.
 
-If the original skill says not to edit files, keep that, but make `<LESSONS_FILE>` the one
-exception, in the same sentence. Otherwise the two instructions contradict each other.
+**a. If the original skill says not to edit files** (for example "Don't edit any files"), change
+that sentence so `<LESSONS_FILE>` is the one exception:
 
-**a. At the start of the skill's steps**, add:
+```markdown
+Don't edit any files, except `<LESSONS_FILE>` when you learn from a correction.
+```
+
+Skip this edit only if the skill never restricts editing.
+
+**b. At the start of the skill's steps**, add:
 
 ```markdown
 Before reviewing, read `<LESSONS_FILE>`. Treat every rule in it as a review criterion, alongside
 the checks below. Don't flag code for following a rule in that file.
 ```
 
-**b. In the output format**, add to each finding:
+**c. In the output format**, add to each finding:
 
 ```markdown
 - Rule: the line from `<LESSONS_FILE>` this finding enforces, or "general" if none.
 ```
 
-**c. At the end of the skill**, add this section:
+**d. At the end of the skill**, add this section:
 
 ```markdown
 ## Learning from corrections
@@ -74,6 +80,8 @@ A finding the user simply doesn't fix is not a correction. Only record what they
 
 - Make sure the frontmatter `description` still says when to use the skill, and add "Learns from
   your corrections." to the end of it.
+- Read the finished skill once more. If anything in it still forbids editing `<LESSONS_FILE>`,
+  fix it now.
 - Show the user the diff of the skill file and say in one or two sentences what changed.
 - Suggest a quick test: run a review, dismiss one finding, and check that a new rule appears in the
   lessons file.

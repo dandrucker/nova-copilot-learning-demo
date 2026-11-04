@@ -4,7 +4,8 @@ description: Review the current changes for bugs, risky patterns and readability
 ---
 # Reviewing the current changes
 
-1. Run `git diff main...HEAD` and read every changed file in full, not just the diff.
+1. Run `git diff main...HEAD`, or `git diff` if the changes aren't committed yet, and read every
+   changed file in full, not just the diff.
 2. Look for, in this order:
    - Bugs: wrong logic, unhandled nulls, off-by-one errors, missing awaits.
    - Risk: secrets or customer data in code or logs, unvalidated input, breaking API changes.

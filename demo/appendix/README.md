@@ -35,5 +35,19 @@ Copilot writes code, and the other way round.
 6. Check that `.github/copilot-instructions.md` has a new rule with that reason, then run the
    review again and check the finding is gone.
 
+## What we saw in testing
+
+Tested with Copilot CLI on 2026-11-04. The upgrade took about 40 seconds. The reviewer flagged
+user-supplied titles in a log message as a log-forging risk.
+
+- First dismissal: "we log in JSON, so line breaks are escaped." Copilot wrote that down as a
+  conditional rule. A fresh review read the rule, checked the code, saw the app actually logs plain
+  text, and **flagged it again**. The lesson is only as good as the reason you give it.
+- Second dismissal, with an accurate reason (an internal gateway strips control characters):
+  Copilot wrote the rule, and a fresh review returned "No findings", citing the rule.
+
+That first result is worth telling an audience: the reviewer doesn't just obey the file, it checks
+the reason against the code.
+
 The upgrade skill works on other review skills too, including Claude Code ones. Give it the path,
 and name `CLAUDE.md` as the lessons file if that's where your conventions live.
