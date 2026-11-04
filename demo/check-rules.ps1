@@ -27,7 +27,7 @@ if ($iface) {
     $bad = Select-String -Path $iface.Path -Pattern '^\s*[^ /].*\s\w+\(.*\);' |
         Where-Object { $_.Line -notmatch 'Task.*CancellationToken' }
 }
-$detail = if (-not $iface) { 'no repository interface found' } else { ($bad | Select-Object -First 1).Line.Trim() }
+$detail = if (-not $iface) { 'no repository interface found' } elseif ($bad) { ($bad | Select-Object -First 1).Line.Trim() } else { '' }
 Report 'Async with CancellationToken' ($iface -and -not $bad) $detail
 
 # 3. Structured logging

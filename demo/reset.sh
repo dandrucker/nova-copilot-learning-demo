@@ -13,5 +13,7 @@ fi
 git -C "$repo" reset --hard
 git -C "$repo" clean -fd
 git -C "$repo" checkout -B demo-live phase-1-baseline
+# Copilot CLI's write tool can't always create folders, so make the one Phase 2 writes into.
+mkdir -p "$repo/.github"
 dotnet build "$repo" --nologo -v q
 echo "Reset to phase-1-baseline on branch demo-live. Baseline builds."
