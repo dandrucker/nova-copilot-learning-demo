@@ -1,5 +1,9 @@
 # NOVA Copilot Presenter Runbook: Teaching Copilot to Learn
 
+> **Presenting? Use [START_HERE.md](START_HERE.md).** It has setup, the steps and what to say, in
+> order. This runbook is the reference for the other ways to run the demo: the NOVA Presenter agent
+> and Copilot CLI.
+
 A live demo that shows GitHub Copilot learning a team's conventions from
 `.github/copilot-instructions.md`, then keeping that file up to date itself. Everything runs on
 GitHub Copilot: VS Code Copilot Chat for the presenter and the coding, and Copilot CLI only if you
@@ -10,7 +14,7 @@ have it. No other agent is needed.
 | Piece | Where it lives | Why |
 | --- | --- | --- |
 | Work order API (the app Copilot changes) | `phase-1-baseline` branch | The starting point. Each run resets to it on a throwaway `demo-live` branch. |
-| This runbook and the `demo/` kit | `demo-runbook` branch, and the `nova-demo-kit` folder in the zip | Kept outside the working tree during the demo, so the Phase 3 session can't read the house rules from it. |
+| This runbook and the `demo/` kit | `demo-runbook` branch, cloned on its own into `nova-demo-kit` (see START_HERE.md) | Kept outside the working tree during the demo, so the Phase 3 session can't read the house rules from it. |
 | NOVA Presenter custom agent | `~/.copilot/agents/nova-presenter.agent.md` | User level, so it survives the reset and works in both VS Code and Copilot CLI. |
 
 Lay the folders out side by side, for example `C:\nova\nova-copilot-learning-demo` (the repo) and
@@ -30,7 +34,7 @@ Lay the folders out side by side, for example `C:\nova\nova-copilot-learning-dem
 3. Install the presenter agent, then reload VS Code:
 
    ```powershell
-   C:\nova\nova-demo-kit\install-presenter.ps1
+   C:\nova\nova-demo-kit\demo\install-presenter.ps1
    ```
 
 4. Open the repo folder in VS Code. Open Chat, open the agents dropdown, and check that
@@ -57,7 +61,7 @@ Lay the folders out side by side, for example `C:\nova\nova-copilot-learning-dem
 - **C. Fallback script, no agent.** If the presenter misbehaves live:
 
   ```powershell
-  C:\nova\nova-demo-kit\run-demo.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
+  C:\nova\nova-demo-kit\demo\run-demo.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
   ```
 
   It needs Copilot CLI, pauses for Enter between steps, and runs each phase in a fresh
@@ -70,7 +74,7 @@ On screen: "We start from Copilot's default style: classes for DTOs, sync code, 
 plain-text errors, everything in Program.cs."
 
 ```powershell
-C:\nova\nova-demo-kit\reset.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
+C:\nova\nova-demo-kit\demo\reset.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
 ```
 
 This throws away uncommitted changes, recreates `demo-live` from `phase-1-baseline`, and builds.
@@ -112,7 +116,7 @@ Check afterward: commit as "Phase 3", run the same diff commands and `dotnet bui
 by rule. The presenter agent does this in chat. By hand, run the quick check:
 
 ```powershell
-C:\nova\nova-demo-kit\check-rules.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
+C:\nova\nova-demo-kit\demo\check-rules.ps1 -RepoPath C:\nova\nova-copilot-learning-demo
 ```
 
 | Rule | What a pass looks like |

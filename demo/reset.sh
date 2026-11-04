@@ -12,7 +12,8 @@ fi
 
 git -C "$repo" reset --hard
 git -C "$repo" clean -fd
-git -C "$repo" checkout -B demo-live phase-1-baseline
+# Use the remote branch, so a fresh clone works without checking out phase-1-baseline first.
+git -C "$repo" checkout -B demo-live origin/phase-1-baseline
 # Copilot CLI's write tool can't always create folders, so make the one Phase 2 writes into.
 mkdir -p "$repo/.github"
 dotnet build "$repo" --nologo -v q

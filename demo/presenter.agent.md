@@ -70,7 +70,8 @@ reset throws it away. Then run:
 ```
 git reset --hard
 git clean -fd
-git checkout -B demo-live phase-1-baseline
+git checkout -B demo-live origin/phase-1-baseline
+mkdir .github
 dotnet build
 ```
 

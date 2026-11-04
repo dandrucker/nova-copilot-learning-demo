@@ -18,8 +18,9 @@ if ($dirty -and -not $Force) {
 
 git -C $RepoPath reset --hard
 git -C $RepoPath clean -fd
-git -C $RepoPath checkout -B demo-live phase-1-baseline
-if ($LASTEXITCODE -ne 0) { throw 'Could not check out phase-1-baseline.' }
+# Use the remote branch, so a fresh clone works without checking out phase-1-baseline first.
+git -C $RepoPath checkout -B demo-live origin/phase-1-baseline
+if ($LASTEXITCODE -ne 0) { throw 'Could not check out origin/phase-1-baseline.' }
 
 # Copilot CLI's write tool can't always create folders, so make the one Phase 2 writes into.
 New-Item -ItemType Directory -Force -Path (Join-Path $RepoPath '.github') | Out-Null

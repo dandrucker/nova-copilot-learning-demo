@@ -23,10 +23,12 @@ The API listens on http://localhost:5090. Sample requests are in
 
 ## Demo kit (this branch)
 
-- `DEMO_RUNBOOK.md`: the presenter script, for VS Code Copilot Chat and Copilot CLI.
+**Presenting? Start with `START_HERE.md`.** It covers setup, the steps and what to say.
+
+- `DEMO_RUNBOOK.md`: other ways to run it (the NOVA Presenter agent, Copilot CLI).
 - `demo/presenter.agent.md`: the NOVA Presenter custom agent. Install it with `demo/install-presenter.ps1`.
 - `demo/run-demo.ps1` and `demo/run-demo.sh`: the no-agent fallback using Copilot CLI.
 - `demo/reset.*`, `demo/check-rules.*` and `demo/prompts/`: reset, quick rule check and the exact prompts.
 
-Copy the `demo/` folder outside the repo before you run the demo (the zip already has it as
-`nova-demo-kit`), because every run resets the working tree to `phase-1-baseline`.
+Keep the kit outside the repo you present from, because every run resets the working tree to
+`phase-1-baseline`. `START_HERE.md` shows how, with a second clone of this branch.
