@@ -22,7 +22,8 @@ public sealed record WorkOrder(
     WorkOrderPriority Priority,
     WorkOrderStatus Status,
     DateTime OpenedAt,
-    string? Assignee);
+    string? Assignee,
+    DateTime? ClosedAt = null);
 
 public sealed record CreateWorkOrderRequest(
     string Title,

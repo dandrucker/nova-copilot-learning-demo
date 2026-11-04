@@ -90,13 +90,14 @@ public static class WorkOrderEndpoints
         ILogger<Program> logger,
         CancellationToken cancellationToken)
     {
-        if (!await repository.CloseAsync(id, cancellationToken))
+        var workOrder = await repository.CloseAsync(id, cancellationToken);
+        if (workOrder is null)
         {
             logger.LogWarning("Could not close work order {WorkOrderId} because it was not found", id);
             return Results.NotFound();
         }
 
         logger.LogInformation("Closed work order {WorkOrderId}", id);
-        return Results.NoContent();
+        return Results.Ok(workOrder);
     }
 }

@@ -8,5 +8,5 @@ public interface IWorkOrderRepository
     Task<IReadOnlyList<WorkOrder>> GetOverdueAsync(CancellationToken cancellationToken);
     Task<WorkOrder?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<WorkOrder> AddAsync(CreateWorkOrderRequest request, CancellationToken cancellationToken);
-    Task<bool> CloseAsync(int id, CancellationToken cancellationToken);
+    Task<WorkOrder?> CloseAsync(int id, CancellationToken cancellationToken);
 }

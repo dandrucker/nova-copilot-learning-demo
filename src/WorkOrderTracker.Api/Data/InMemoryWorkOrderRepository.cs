@@ -89,7 +89,7 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
         }
     }
 
-    public async Task<bool> CloseAsync(int id, CancellationToken cancellationToken)
+    public async Task<WorkOrder?> CloseAsync(int id, CancellationToken cancellationToken)
     {
         await _lock.WaitAsync(cancellationToken);
         try
@@ -97,11 +97,16 @@ public class InMemoryWorkOrderRepository : IWorkOrderRepository
             var index = _workOrders.FindIndex(workOrder => workOrder.Id == id);
             if (index < 0)
             {
-                return false;
+                return null;
             }
 
-            _workOrders[index] = _workOrders[index] with { Status = WorkOrderStatus.Closed };
-            return true;
+            var workOrder = _workOrders[index] with
+            {
+                Status = WorkOrderStatus.Closed,
+                ClosedAt = _workOrders[index].ClosedAt ?? DateTime.UtcNow
+            };
+            _workOrders[index] = workOrder;
+            return workOrder;
         }
         finally
         {
