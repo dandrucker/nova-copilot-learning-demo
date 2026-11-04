@@ -1,6 +1,6 @@
 # Work Order Tracker (NOVA demo baseline)
 
-A small ASP.NET Core (.NET 8) minimal API that tracks pipeline maintenance work orders.
+A small ASP.NET Core (.NET 10) minimal API that tracks pipeline maintenance work orders.
 It's the Phase 1 baseline for the NOVA Advanced demo "Teaching Copilot to Learn".
 
 It is written in Copilot's default style on purpose, so the demo has something to fix:
