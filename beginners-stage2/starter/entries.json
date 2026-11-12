@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "asset": "Meter Station 12",
+    "inspectionDate": "2026-09-14",
+    "inspector": "J. Ortiz",
+    "notes": "Valve 3, minor corrosion"
+  },
+  {
+    "id": 2,
+    "asset": "Compressor Unit 4",
+    "inspectionDate": "2026-10-02",
+    "inspector": "K. Lane",
+    "notes": "Vibration within limits"
+  },
+  {
+    "id": 3,
+    "asset": "Line 7 MP 22.5",
+    "inspectionDate": "2026-10-28",
+    "inspector": "J. Ortiz",
+    "notes": "Replaced faded \"Do not dig\" sign"
+  }
+]
