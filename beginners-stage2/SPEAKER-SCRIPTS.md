@@ -9,6 +9,7 @@ Run every demo once beforehand, so you know what the agent tends to do and have 
 - [ ] Clone this repo and open the `beginners-stage2/starter` folder in VS Code (open that folder itself, so the repo-root `.github` Copilot files from the Advanced demo don't apply).
 - [ ] Run `dotnet run --project src/InspectionLog -- list`. You should see 3 seeded entries, one with a comma in its notes ("Valve 3, minor corrosion"). Session 4 uses it.
 - [ ] Run `dotnet test`. The 2 starter tests should pass.
+- [ ] If you tried `add`, run `git checkout -- entries.json` to put the 3 seeded entries back.
 - [ ] Check that Copilot Chat shows **Ask**, **Plan** and **Agent** in the agent picker.
 - [ ] Rehearse each demo on its own branch (`rehearsal-s4`, `rehearsal-s5`, `rehearsal-s6`) and commit the result. If a live run stalls, say "here's one I made earlier" and switch branches.
 - [ ] Start each demo from a clean `git status`.
@@ -200,6 +201,8 @@ file by file, in order. Name the file and method at each step.
 **Say:** "Now the important part. We don't trust it yet. Pick three claims and check them."
 
 **3. Verify.** **Do:** Pick three claims from the answers, for example "data is stored in memory", "input is validated before saving" and "the tests use WebApplicationFactory". Open each file and confirm or refute it with the room. Mark each one right, partly right or wrong.
+
+**Heads-up:** the root `README.md` and the comments in `MeterReadings.Api.http` still say the API has no input validation, but `main` does validate (FluentValidation, 400 on bad input). If the agent repeats the README's claim, that's your "wrong" example: open `Program.cs` and `Validation/MeterReadingRequestValidator.cs` to show it.
 
 **Say:** "One question I always ask:"
 
