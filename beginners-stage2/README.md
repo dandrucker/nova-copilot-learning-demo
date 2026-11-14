@@ -25,4 +25,11 @@ dotnet run --project src/InspectionLog -- add "Meter Station 9" "D. Smith" Gauge
 dotnet test
 ```
 
+`add` writes to `entries.json`, so put the 3 seeded entries back before you present
+(the Session 4 demo needs them and a clean `git status`):
+
+```text
+git checkout -- entries.json
+```
+
 Requires the .NET 8 SDK and VS Code with GitHub Copilot Chat.
